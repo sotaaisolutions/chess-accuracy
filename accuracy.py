@@ -1,7 +1,7 @@
 import chess.pgn
 import chess.engine
 import pandas as pd
-
+import traceback
 
 
 def accuracy(file, stockfish, blunder_threshold = -100,analysis_time = 0.1):
@@ -31,7 +31,7 @@ def accuracy(file, stockfish, blunder_threshold = -100,analysis_time = 0.1):
 
                         
                         fen_str = board.fen()
-                        print(fen_str)  
+                        # print(fen_str)  
                         board = chess.Board(fen_str)
 
                         
@@ -39,7 +39,7 @@ def accuracy(file, stockfish, blunder_threshold = -100,analysis_time = 0.1):
 
                         
                         evaluation = info["score"].relative.score(mate_score=10000)
-                        print("Evaluation:", evaluation)
+                        # print("Evaluation:", evaluation)
                         if i % 2 == 1:
                             black_evals.append(evaluation)
                         else:
@@ -48,28 +48,42 @@ def accuracy(file, stockfish, blunder_threshold = -100,analysis_time = 0.1):
                 evals_white_perspective =  [-1*(black_evals[i//2]) if i % 2 == 0 else white_evals[i // 2] for i in range(len(white_evals)+len(black_evals)) ]
                 
                 blunder_count = 0
-                for i in range(1, len(evals_white_perspective)):
-                    if evals_white_perspective[i] - evals_white_perspective[i - 1] < blunder_threshold:
-                        if evals_white_perspective[i]<500:
-                            blunder_count += 1
-                            print(evals_white_perspective[i],evals_white_perspective[i - 1] )
-
                 game_dict = dict(game.headers)
+                no_white_moves = 0
+                for i in range(1, len(evals_white_perspective)):
+
+                    if evals_white_perspective[i-1]>-500 and evals_white_perspective[i-1]<500:
+                        if i % 2 == 0:
+                            no_white_moves = no_white_moves +1
+                        if evals_white_perspective[i] - evals_white_perspective[i - 1] < blunder_threshold:
+                        
+                            blunder_count += 1
+                            # print(evals_white_perspective[i],evals_white_perspective[i - 1] )
+
+                
                 game_dict['white_blunder'] = blunder_count
-                game_dict['no_white_moves'] = len(white_evals)+1
-                game_dict['white_accuracy'] = 1-blunder_count/len(white_evals)
+                
+                if len(white_evals)>0:
+                    game_dict['white_accuracy'] = 1-blunder_count/no_white_moves
                 
                 blunder_count = 0
+                no_black_moves = 0
                 for i in range(1, len(evals_white_perspective)):
-                    if evals_white_perspective[i] - evals_white_perspective[i - 1] > -blunder_threshold:
-                        if evals_white_perspective[i]>-500:
+                    if evals_white_perspective[i-1]>-500 and evals_white_perspective[i-1]<500:
+                        if i % 2 == 1:
+                            no_black_moves  = no_black_moves +1
+                        if evals_white_perspective[i] - evals_white_perspective[i - 1] > -blunder_threshold:
+                        
                             blunder_count += 1
-                            print(evals_white_perspective[i],evals_white_perspective[i - 1] )
-                game_dict['no_black_moves'] = len(black_evals)
-                game_dict['black_accuracy'] = 1-blunder_count/len(black_evals)
-                game_dict['black_blunder']= blunder_count
-                gamedata.append(game_dict)
+                            # print(evals_white_perspective[i],evals_white_perspective[i - 1] )
                 
+                if len(black_evals)>0:
+                    game_dict['black_accuracy'] = 1-blunder_count/no_black_moves
+                game_dict['black_blunder']= blunder_count
+                game_dict['no_black_moves'] = no_black_moves
+                game_dict['no_white_moves'] = no_white_moves
+                gamedata.append(game_dict)
+                print(game_dict)
                 
                 game = chess.pgn.read_game(pgn_file)
 
@@ -80,3 +94,4 @@ def accuracy(file, stockfish, blunder_threshold = -100,analysis_time = 0.1):
         df = pd.DataFrame(gamedata)
         print(df)
         df.to_csv('chess.csv')
+        traceback.print_exception()
