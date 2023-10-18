@@ -4,10 +4,15 @@ This Python script analyzes chess games from PGN files using the python-chess li
 <b>Dependencies</b><br>
 python-chess: pip install chess<br>
 pandas: pip install pandas<br>
+pgnhelper: pip install pgnhelper
 
 <b>How to use</b><br>
+Clone the repo
+Install dependencies given above
 Install Stockfish:<br>
 You need to have the Stockfish chess engine installed on your system. You can download it from the official Stockfish website.<br>
+If you are working in linux then you have to executable rights to file using command <br>
+chmod +x stockfishpath
 
 <b>Setup</b>:<br>
 
@@ -18,7 +23,10 @@ Run the Script:<br>
 Run the Python script in a terminal or an IDE.<br>
 
 <b> USAGE </b> <br>
-python your_script_name.py<br>
+
+import accuracy<br>
+accuracy.combined(file, stockfish, blunder_threshold ,analysis_time)
+
 Script Parameters<br>
 file (str): Path to the PGN file containing the chess games<br>
 stockfish (str): Path to the Stockfish binary.<br>
@@ -26,6 +34,7 @@ blunder_threshold (int, optional): The threshold for the evaluation difference t
 analysis_time (float, optional): The time in seconds that Stockfish will spend analyzing each move. Defaults to 0.1.<br>
 Output<br>
 The script outputs a CSV file named chess.csv containing the analysis results, including accuracy and blunder counts for both White and Black in each game.<br>
+And it outputs a file output.xlsx containing tabular analysis of the chess games.
 <br>
 <b>Example</b><br>
 accuracy("path_to_your_pgn_file.pgn", "path_to_your_stockfish_binary")<br>
