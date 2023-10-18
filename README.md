@@ -37,9 +37,9 @@ The script outputs a CSV file named chess.csv containing the analysis results, i
 And it outputs a file output.xlsx containing tabular analysis of the chess games.
 <br>
 <b>Example</b><br>
-accuracy("path_to_your_pgn_file.pgn", "path_to_your_stockfish_binary")<br>
+
 Important Notes<br>
 Ensure that you have the necessary permissions to read the PGN file and write the output CSV file to the specified locations.
 The script processes each game in the PGN file one by one and appends the results to the output CSV file, so it can handle large PGN files efficiently.
 The script may take a considerable amount of time to run, depending on the analysis_time parameter and the number of games in the PGN file.
-Remember to replace placeholder texts like your_script_name.py, path_to_your_pgn_file.pgn, and path_to_your_stockfish_binary with the actual names/paths in your project.
+
