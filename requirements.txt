@@ -1,0 +1,3 @@
+chess==1.9.1
+pandas==2.0.2
+pgnhelper==0.10.2
