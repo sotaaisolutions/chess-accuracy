@@ -3,8 +3,9 @@ import chess.engine
 import pandas as pd
 import traceback
 import pgnhelper.app
+import argparse
 
-eco = r'/home/rohit/Desktop/python3.11envs/venv311/pgnhelper-main/eco/eco.pgn'
+eco = 'eco.pgn'
 
 def addopening(file):
     outputname ='out.pgn'
@@ -223,6 +224,24 @@ def combined(file, stockfish, blunder_threshold = -100,analysis_time = 0.1):
     output_calculations(file)
 
 
+if __name__ == "__main__":
+    # Initialize argparse
+    parser = argparse.ArgumentParser(description='Run the combined function with given parameters.')
+
+    # Add arguments
+    parser.add_argument('--file', type=str, required=True, help='Input PGN file')
+    parser.add_argument('--stockfish', type=str, required=True, help='Path to the Stockfish executable')
+    parser.add_argument('--blunder_threshold', type=int, default=-100, help='Threshold for considering a move as a blunder. Default is -100.')
+    parser.add_argument('--analysis_time', type=float, default=0.1, help='Time in seconds for Stockfish to analyze each position. Default is 0.1s.')
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    # Run the combined function
+    combined(args.file, args.stockfish, args.blunder_threshold, args.analysis_time)
 
 
-
+## USAGE
+##python accuracy.py --file input.pgn --stockfish /path/to/stockfish
+## with optional arguments
+##python script.py --file input.pgn --stockfish /path/to/stockfish --blunder_threshold -50 --analysis_time 0.2
