@@ -216,7 +216,8 @@ def output_calculations(file):
             output_dict[key].to_excel(writer, sheet_name=key, index=True)
 
 
-def combined(file, stockfish, blunder_threshold = -100,analysis_time = 0.1):
+def combined(file, stockfish, blunder_threshold = 100,analysis_time = 0.1):
+    blunder_threshold = -blunder_threshold
     addopening(file)
     file = 'out.pgn'
     accuracy(file, stockfish, blunder_threshold,analysis_time)
