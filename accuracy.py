@@ -208,8 +208,12 @@ def output_calculations(file):
     table = total.groupby('color').sum()[['no__moves','blunder']]
     table['acc'] = 1-table.blunder/table.no__moves
     output_dict['color-accuracy']= table.copy()
-    output_dict['opening-winloss'] = total.groupby(['color','Opening']).sum()[['win','lose','draw']].sort_values('win',ascending=False)
-    output_dict['date-winloss'] = total.groupby(['Date']).sum()[['win','lose','draw']]
+    table = total.groupby(['color','Opening']).sum()[['win','lose','draw','no__moves','blunder']].sort_values('win',ascending=False)
+    table['acc'] = 1-table.blunder/table.no__moves
+    output_dict['opening-winloss'] = table.copy()
+    table = total.groupby(['Date']).sum()[['win','lose','draw','no__moves','blunder']]
+    table['acc'] = 1-table.blunder/table.no__moves
+    output_dict['date-winloss'] = table.copy()
     # print(output_dict)
     with pd.ExcelWriter("output.xlsx") as writer:
         for key in output_dict:
