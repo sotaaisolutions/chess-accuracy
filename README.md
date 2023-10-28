@@ -24,12 +24,11 @@ Run the Python script in a terminal or an IDE.<br>
 
 <b> USAGE </b> <br>
 
-import accuracy<br>
-accuracy.combined(file, stockfish, blunder_threshold ,analysis_time)
+python script.py -- file filepath -- stockfish /path/to/stockfish -- blunder_threshold 100 -- analysis_time 0.1
 
 Script Parameters<br>
-file (str): Path to the PGN file containing the chess games<br>
-stockfish (str): Path to the Stockfish binary.<br>
+filepath (str): Path to the PGN file containing the chess games<br>
+/path/to/stockfish (str): Path to the Stockfish binary.<br>
 blunder_threshold (int, optional): The threshold for the evaluation difference to consider a move as a blunder. Defaults to -100.<br>
 analysis_time (float, optional): The time in seconds that Stockfish will spend analyzing each move. Defaults to 0.1.<br>
 Output<br>
