@@ -24,7 +24,7 @@ Run the Python script in a terminal or an IDE.<br>
 
 <b> USAGE </b> <br>
 
-python script.py -- file filepath -- stockfish /path/to/stockfish -- blunder_threshold 100 -- analysis_time 0.1
+python accuracy.py -- file filepath -- stockfish /path/to/stockfish -- blunder_threshold 100 -- analysis_time 0.1
 
 Script Parameters<br>
 filepath (str): Path to the PGN file containing the chess games<br>
